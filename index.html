@@ -22,8 +22,32 @@ select{background:#12121a;border:1px solid rgba(255,255,255,.15);border-radius:1
 .ok{background:rgba(34,197,94,.25)!important}.bad{background:rgba(239,68,68,.25)!important}
 a.lk{color:#a78bfa;text-decoration:underline}
 @media(max-width:767px){#side{position:fixed;inset:auto 0 0 0;z-index:30;padding:4px;background:#0a0a0f;border-top:1px solid rgba(255,255,255,.12)}
-#side .brand{display:none}#side .nav{display:flex;overflow-x:auto;gap:2px}#side .nav a span{display:none}main{padding-bottom:90px}}
-</style>
+#sibody {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.16), transparent 35%),
+    radial-gradient(circle at 85% 20%, rgba(168, 85, 247, 0.16), transparent 38%),
+    radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.12), transparent 40%),
+    #0b0f17 !important;
+  overflow-x: hidden;
+}
+
+.glass, .sec, .card {
+  transform-style: preserve-3d;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glass:hover, .sec:hover {
+  transform: translateY(-4px) rotateX(2deg) scale(1.01);
+  border-color: rgba(125, 211, 252, 0.45) !important;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.6), 0 0 22px rgba(99, 102, 241, 0.22);
+}
+
+.btn, button {
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}.brand{display:none}#side .nav{display:flex;overflow-x:auto;gap:2px}#side .nav a span{display:none}main{padding-bottom:90px}}
+ </style>
 </head>
 <body class="min-h-screen">
 <div class="md:flex">
@@ -302,7 +326,38 @@ $('roleSel').onchange=e=>setRole(e.target.value);
 addEventListener('keydown',e=>{if(e.key==='Escape'&&dr)closeDr()});
 addEventListener('hashchange',()=>{page=(location.hash||'#dash').slice(1);render()});
 render();
-</script>
+ (function () {
+  const glyphs = ['✦', '✧', '✨', '★', '◆'];
+  const colors = ['#38bdf8', '#c084fc', '#34d399', '#fbbf24', '#f472b6'];
+
+  function burstSparkles(x, y, count = 10) {
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      el.className = 'ct-spark';
+      el.textContent = glyphs[i % glyphs.length];
+      el.style.color = colors[i % colors.length];
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.4 - 0.2);
+      const dist = 28 + Math.random() * 36;
+      el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+      el.style.setProperty('--dy', Math.sin(angle) * dist - 12 + 'px');
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 780);
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    const target = e.target.closest('button, .btn, a, [role="button"]');
+    if (target) {
+      const rect = target.getBoundingClientRect();
+      const cx = e.clientX || rect.left + rect.width / 2;
+      const cy = e.clientY || rect.top + rect.height / 2;
+      burstSparkles(cx, cy, 9);
+    }
+  });
+})();
+ </script>
  <footer class="mt-10 border-t border-white/10 py-6 px-4 text-center text-xs text-slate-400">
   <p class="font-semibold text-white">CareerTrack SaaS — Academies &amp; Bootcamps</p>
   <p class="mt-1">
